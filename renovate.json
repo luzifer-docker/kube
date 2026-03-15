@@ -3,7 +3,8 @@
   "description": "Standalone Renovate config for mirroring Kubernetes control-plane images.",
   "dependencyDashboard": true,
   "enabledManagers": [
-    "custom.regex"
+    "custom.regex",
+    "github-actions"
   ],
   "customManagers": [
     {
