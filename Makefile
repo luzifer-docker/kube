@@ -1,4 +1,4 @@
-KUBERNETES_VERSION := v1.35.1
+KUBERNETES_VERSION := v1.35.2
 SOURCE_REGISTRY := registry.k8s.io
 TARGET_REGISTRY := ghcr.io/luzifer-docker/kube
 IMAGES := kube-apiserver kube-controller-manager kube-proxy kube-scheduler
