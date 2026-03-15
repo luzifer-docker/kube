@@ -25,3 +25,6 @@ jobs:
         uses: renovatebot/github-action@v46.1.4
         with:
           token: ${{ secrets.RENOVATE_TOKEN }}
+        env:
+          RENOVATE_GIT_AUTHOR: "Luzifer Renovate <noreply@luzifer.io>"
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
