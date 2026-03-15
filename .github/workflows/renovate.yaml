@@ -1,6 +1,12 @@
 name: Renovate
 
 on:
+  push:
+    branches:
+      - develop
+    paths:
+      - renovate.json
+      - .github/workflows/renovate.yaml
   schedule:
     - cron: "0 4 * * 1"
   workflow_dispatch: {}
