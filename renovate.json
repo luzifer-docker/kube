@@ -14,7 +14,7 @@
       ],
       "datasourceTemplate": "docker",
       "matchStrings": [
-        "^(?<depName>[^:\\s]+(?:/[^:\\s]+)+):(?<currentValue>\\S+)$"
+        "(?:^|\\r?\\n)(?<depName>[^:\\s]+(?:/[^:\\s]+)+):(?<currentValue>[^\\s]+)"
       ]
     }
   ]
