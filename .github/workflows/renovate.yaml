@@ -9,7 +9,7 @@ on:
       - renovate.json
       - .github/workflows/renovate.yaml
   schedule:
-    - cron: "0 4 * * 1"
+    - cron: "0 4 * * *"
   workflow_dispatch: {}
 
 permissions:
