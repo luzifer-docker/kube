@@ -31,7 +31,7 @@ The `Makefile` defines:
 
 The shell script reads `images.txt`, preserves the upstream path layout below `registry.k8s.io`, and mirrors each pinned image to GHCR.
 
-Running `make mirror` copies all configured images while preserving multi-architecture manifests via `skopeo copy --all`.
+Running `make mirror` checks whether the target tag already exists in GHCR and only runs `skopeo copy --all` for missing tags.
 
 The main entrypoint remains:
 
