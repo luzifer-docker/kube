@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Standalone Renovate config for mirroring Kubernetes control-plane images.",
+  "description": "Standalone Renovate config for mirroring selected registry.k8s.io images.",
   "dependencyDashboard": true,
   "enabledManagers": [
     "custom.regex",
@@ -10,15 +10,12 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "/^Makefile$/"
+        "/^images\\.txt$/"
       ],
+      "datasourceTemplate": "docker",
       "matchStrings": [
-        "KUBERNETES_VERSION := (?<currentValue>v?\\d+\\.\\d+\\.\\d+)"
-      ],
-      "datasourceTemplate": "github-tags",
-      "depNameTemplate": "kubernetes/kubernetes",
-      "packageNameTemplate": "kubernetes/kubernetes",
-      "versioningTemplate": "semver"
+        "^(?<depName>[^:\\s]+(?:/[^:\\s]+)+):(?<currentValue>\\S+)$"
+      ]
     }
   ]
 }

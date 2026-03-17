@@ -1,42 +1,44 @@
 # Kubernetes Image Mirror
 
-This repository mirrors selected Kubernetes control plane images from `registry.k8s.io` to GitHub Container Registry.
+This repository mirrors selected Kubernetes images from `registry.k8s.io` to GitHub Container Registry.
 
 The mirror exists so environments that cannot reliably pull from the upstream Kubernetes registry can use equivalent images from GHCR instead.
 
 ## Mirrored Images
 
-For each Kubernetes version pinned in the `Makefile`, the following images are copied:
+The mirrored image list lives in [`images.txt`](images.txt). Each entry pins a full upstream image reference and is updated independently by Renovate.
 
-- `kube-apiserver`
-- `kube-controller-manager`
-- `kube-proxy`
-- `kube-scheduler`
+Images are rewritten by preserving the path below `registry.k8s.io` and replacing the registry prefix:
 
-Images are published to:
+```text
+registry.k8s.io/<image>:<tag>
+-> ghcr.io/luzifer-docker/kube/<image>:<tag>
+```
 
-- `ghcr.io/luzifer-docker/kube/kube-apiserver:<version>`
-- `ghcr.io/luzifer-docker/kube/kube-controller-manager:<version>`
-- `ghcr.io/luzifer-docker/kube/kube-proxy:<version>`
-- `ghcr.io/luzifer-docker/kube/kube-scheduler:<version>`
+Examples:
+
+- `registry.k8s.io/kube-apiserver:v1.35.2` -> `ghcr.io/luzifer-docker/kube/kube-apiserver:v1.35.2`
+- `registry.k8s.io/ingress-nginx/controller:v1.13.4` -> `ghcr.io/luzifer-docker/kube/ingress-nginx/controller:v1.13.4`
+- `registry.k8s.io/sig-storage/csi-provisioner:v5.3.0` -> `ghcr.io/luzifer-docker/kube/sig-storage/csi-provisioner:v5.3.0`
 
 ## How It Works
 
 The `Makefile` defines:
 
-- the Kubernetes version to mirror
 - the source registry
 - the target registry
-- the list of mirrored images
+- the image list file passed to [`ci/mirror.sh`](ci/mirror.sh)
+
+The shell script reads `images.txt`, preserves the upstream path layout below `registry.k8s.io`, and mirrors each pinned image to GHCR.
 
 Running `make mirror` copies all configured images while preserving multi-architecture manifests via `skopeo copy --all`.
 
-Individual images can also be mirrored with:
+The main entrypoint remains:
 
 ```bash
-make mirror-kube-apiserver
+make mirror
 ```
 
 ## Automation
 
-GitHub Actions runs the mirror workflow and publishes the configured images to GHCR.
+GitHub Actions runs the mirror workflow and publishes the configured images to GHCR. Renovate watches [`images.txt`](images.txt) and opens PRs when upstream image tags change.

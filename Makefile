@@ -1,17 +1,10 @@
-KUBERNETES_VERSION := v1.35.2
 SOURCE_REGISTRY := registry.k8s.io
 TARGET_REGISTRY := ghcr.io/luzifer-docker/kube
-IMAGES := kube-apiserver kube-controller-manager kube-proxy kube-scheduler
+IMAGE_FILE := images.txt
 
-.PHONY: default mirror FORCE
+.PHONY: default mirror
 
 default: mirror
 
-mirror: $(addprefix mirror-,$(IMAGES))
-
-mirror-%: FORCE
-	skopeo copy --all \
-		docker://$(SOURCE_REGISTRY)/$*:$(KUBERNETES_VERSION) \
-		docker://$(TARGET_REGISTRY)/$*:$(KUBERNETES_VERSION)
-
-FORCE:
+mirror:
+	./ci/mirror.sh "$(SOURCE_REGISTRY)" "$(TARGET_REGISTRY)" "$(IMAGE_FILE)"

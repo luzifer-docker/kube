@@ -6,6 +6,8 @@ on:
       - develop
     paths:
       - Makefile
+      - ci/mirror.sh
+      - images.txt
       - .github/workflows/mirror.yaml
   workflow_dispatch: {}
 
